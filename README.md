@@ -4,15 +4,8 @@ Your mission should you choose to accept it will be to use Moleculer to unblock 
 
 ![oops](https://ichef.bbci.co.uk/news/976/cpsprodpb/6819/production/_117694662_066397535.jpg)
 
-# moleculer-petstore-lab
-
-Your mission should you choose to accept it will be to use Moleculer to unblock the Suez Canal.
-
-![oops](https://ichef.bbci.co.uk/news/976/cpsprodpb/6819/production/_117694662_066397535.jpg)
-
 [![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
 
-# moleculer-foo
 This is a [Moleculer](https://moleculer.services/)-based microservices project. Generated with the [Moleculer CLI](https://moleculer.services/docs/0.14/moleculer-cli.html).
 
 ## Usage
