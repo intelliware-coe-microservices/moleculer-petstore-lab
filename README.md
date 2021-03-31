@@ -1,10 +1,16 @@
 # moleculer-petstore-lab
 
-Your mission should you choose to accept it will be to use Moleculer to unblock the Suez Canal.
+This lab is an introduction to the Moleculer microservices framework. The lab is broken down into several modules covering several aspects of a
+microservices architecture.
 
-![oops](https://ichef.bbci.co.uk/news/976/cpsprodpb/6819/production/_117694662_066397535.jpg)
+## Prerequisties
+You will need the following to start this lab:
+- a recent version of [node.js](https://nodejs.org/en/download/)
+- a recent version of npm or yarn
+- after checking out the project do an npm or yarn install
 
-[![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
+## Modules
+- [module1.md](module.md)
 
 This is a [Moleculer](https://moleculer.services/)-based microservices project. Generated with the [Moleculer CLI](https://moleculer.services/docs/0.14/moleculer-cli.html).
 
@@ -16,12 +22,9 @@ In the terminal, try the following commands:
 - `call greeter.hello` - Call the `greeter.hello` action.
 - `call greeter.welcome --name John` - Call the `greeter.welcome` action with the `name` parameter.
 
-
-
 ## Services
 - **api**: API Gateway services
 - **greeter**: Sample service with `hello` and `welcome` actions.
-
 
 ## Useful links
 
@@ -29,7 +32,6 @@ In the terminal, try the following commands:
 * Moleculer Documentation: https://moleculer.services/docs/0.14/
 
 ## NPM scripts
-
 - `npm run dev`: Start development mode (load all services locally with hot-reload & REPL)
 - `npm run start`: Start production mode (set `SERVICES` env variable to load certain services)
 - `npm run cli`: Start a CLI and connect to production. Don't forget to set production namespace with `--ns` argument in script
