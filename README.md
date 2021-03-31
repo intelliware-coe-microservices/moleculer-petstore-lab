@@ -10,7 +10,9 @@ You will need the following to start this lab:
 - after checking out the project do an npm or yarn install
 
 ## Modules
-- [module1.md](module.md)
+The lab will involve building a subset of the endpoints for the petstore api. The swagger definition can be found at
+[https://petstore3.swagger.io/](https://petstore3.swagger.io/).
+- [Rest and Event Handling](modules/rest-and-event-handling.md)
 
 This is a [Moleculer](https://moleculer.services/)-based microservices project. Generated with the [Moleculer CLI](https://moleculer.services/docs/0.14/moleculer-cli.html).
 
