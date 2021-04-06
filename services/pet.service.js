@@ -31,9 +31,6 @@ module.exports = {
 		 */
 		getPet: {
 			rest: "/:petId",
-            params: {
-                petId: { type: "number", positive: true, integer: true }
-            },
 			/** @param {Context} ctx  */
 			async handler(ctx) {
                 const petId = parseInt(ctx.params.petId);
