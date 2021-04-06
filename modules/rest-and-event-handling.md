@@ -6,6 +6,8 @@ In a microservices architecture some functionality is delivered in a synchronous
 Using the greeter.service.js as an example, implement the following rest endpoints in Moleculer using the petstore swagger api
 documentation at [https://petstore3.swagger.io/](https://petstore3.swagger.io/).
 
+Some documentation [here](https://moleculer.services/docs/0.14/moleculer-web.html) may help.
+
 You can stub out and hard code pet data in the absence of a persistence layer. Test out the endpoints using your favorite rest
 endpoint testing utility.
 

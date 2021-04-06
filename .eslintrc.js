@@ -14,15 +14,8 @@ module.exports = {
         "ecmaVersion": "2018"
     },
     "rules": {
-        "indent": [
-            "warn",
-            "tab",
-            { "SwitchCase": 1 }
-        ],
-        "quotes": [
-            "warn",
-            "double"
-        ],
+        "indent": "off",
+        "quotes": "off",
         "semi": [
             "error",
             "always"
