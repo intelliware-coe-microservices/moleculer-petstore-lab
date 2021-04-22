@@ -67,7 +67,7 @@ module.exports = {
 			/** @param {Context} ctx  */
 			async handler(ctx) {
                 const order = ctx.params.order;
-                this.broker.call('pet.getPet', {petId: order.petId}) // fall back response - caller fallback
+                this.broker.call('pet.getPet', {petId: order.petId}) // TODO fall back response - caller fallback
                     .then(this.orders.set(order.id, order))
                     .catch(error => console.error(error.message));
 			}
