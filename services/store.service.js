@@ -32,12 +32,12 @@ module.exports = {
          getOrder: {
 			rest: "/order/:orderId",
             params: {
-                orderId: { type: "number", positive: true, integer: true }
+                orderId: { type: "string", positive: true, integer: true }
             },
 			/** @param {Context} ctx  */
 			async handler(ctx) {
                 const orderId = parseInt(ctx.params.orderId);
-                if (!this.orders.has(orderId)) {
+                if (!this.orders.has(orderId)) { // TODO : instead throw an error and have the status code in there https://moleculer.services/docs/0.14/errors.html
                     ctx.meta.$statusCode = 404;
                     ctx.meta.$statusMessage = 'Order with id ' + orderId + ' not found';
                     return;
@@ -55,11 +55,11 @@ module.exports = {
 			rest: "POST /order",
             params: {
                 order: {
-                    $$type: "object",
-                    id: { type: 'number', positive: true, integer: true },
-                    petId: { type: 'number', positive: true, integer: true },
-                    quantity: { type: 'number', positive: true, integer: true },
-                    shipDate: { type: 'date' },
+                    type: "object",
+                    id: { type: 'number', positive: true, integer: true, convert: true},
+                    petId: { type: 'number', positive: true, integer: true, convert: true},
+                    quantity: { type: 'number', positive: true, integer: true, convert: true},
+                    shipDate: { type: 'date' , convert:true},
                     status: { type: 'enum', values: ['placed', 'approved', 'delivered']},
                     complete: { type: 'boolean' }
                 }
@@ -67,7 +67,7 @@ module.exports = {
 			/** @param {Context} ctx  */
 			async handler(ctx) {
                 const order = ctx.params.order;
-                this.broker.call('pet.getPet', {petId: order.petId})
+                this.broker.call('pet.getPet', {petId: order.petId}) // fall back response - caller fallback
                     .then(this.orders.set(order.id, order))
                     .catch(error => console.error(error.message));
 			}
