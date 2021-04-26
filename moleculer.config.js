@@ -122,11 +122,11 @@ module.exports = {
 	// Settings of Circuit Breaker. More info: https://moleculer.services/docs/0.14/fault-tolerance.html#Circuit-Breaker
 	circuitBreaker: {
 		// Enable feature
-		enabled: false,
+		enabled: true,
 		// Threshold value. 0.5 means that 50% should be failed for tripping.
 		threshold: 0.5,
 		// Minimum request count. Below it, CB does not trip.
-		minRequestCount: 20,
+		minRequestCount: 10,
 		// Number of seconds for time window.
 		windowTime: 60,
 		// Number of milliseconds to switch from open to half-open state
