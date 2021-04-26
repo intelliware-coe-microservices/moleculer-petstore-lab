@@ -32,7 +32,7 @@ module.exports = {
          getOrder: {
 			rest: "/order/:orderId",
             params: {
-                orderId: { type: "string" }
+                orderId: { type: "string", positive: true, integer: true }
             },
 			/** @param {Context} ctx  */
 			async handler(ctx) {
@@ -59,7 +59,7 @@ module.exports = {
                     id: { type: 'number', positive: true, integer: true },
                     petId: { type: 'number', positive: true, integer: true },
                     quantity: { type: 'number', positive: true, integer: true },
-                    shipDate: { type: 'string' },
+                    shipDate: { type: 'date', convert:true },
                     status: { type: 'enum', values: ['placed', 'approved', 'delivered']},
                     complete: { type: 'boolean' }
                 }
