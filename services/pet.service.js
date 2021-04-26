@@ -31,9 +31,13 @@ module.exports = {
 		 */
 		getPet: {
 			rest: "/:petId",
+            params: {
+                petId: { type: "string", positive: true, integer: true }
+            },
 			/** @param {Context} ctx  */
 			async handler(ctx) {
                 const petId = parseInt(ctx.params.petId);
+                this.logger.info('Get pet with id ' + petId);
                 if (!this.pets.has(petId)) {
                     ctx.meta.$statusCode = 404;
                     ctx.meta.$statusMessage = 'Pet with id ' + petId + ' not found';
@@ -41,7 +45,28 @@ module.exports = {
                 }
 				return this.pets.get(petId);
 			}
-		}
+		},
+        addPet: {
+            rest: "POST /",
+            params: {
+                id: { type: 'number', positive: true, integer: true },
+                name: { type: 'string'},
+                category: {
+                    $$type: "object",
+                    id: { type: 'number', positive: true, integer: true },
+                    name: { type: 'string'}
+                },
+                // leave out photoUrls and tags for now
+                status: { type: 'enum', values: ['available', 'pending', 'sold']}
+            },
+			/** @param {Context} ctx  */
+			async handler(ctx) {
+                const pet = ctx.params;
+                this.logger.info('Adding pet ' + JSON.stringify(pet));
+                this.pets.set(pet.id, pet);
+                this.broker.broadcast('pet.created', pet);
+			}
+        }
 	},
 
 	/**
@@ -49,7 +74,7 @@ module.exports = {
 	 */
 	events: {
 
-	},
+    },
 
 	/**
 	 * Methods
@@ -63,7 +88,7 @@ module.exports = {
 	 */
 	created() {
         this.pets = new Map();
-        this.pets.set(123, {id: 123, name: 'Fido'});
+        this.pets.set(123, {id: 123, name: 'Fido', category: { id: 1, name: 'Dogs'}, status: 'available'});
 	},
 
 	/**
@@ -71,7 +96,7 @@ module.exports = {
 	 */
 	async started() {
 
-	},
+    },
 
 	/**
 	 * Service stopped lifecycle event handler

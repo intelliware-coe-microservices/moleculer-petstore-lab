@@ -1,1 +1,6 @@
+curl -v http://localhost:3000/api/pet/123
 curl -v -X POST http://localhost:3000/api/store/order --data @curl/order.json -H "Content-Type: application/json"
+curl -v http://localhost:3000/api/store/order/123
+
+curl -v -X POST http://localhost:3000/api/pet --data @curl/pet.json -H "Content-Type: application/json"
+curl -v http://localhost:3000/api/store/inventory

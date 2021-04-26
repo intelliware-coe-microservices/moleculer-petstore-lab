@@ -24,6 +24,13 @@ module.exports = {
 	 */
 	actions: {
 
+        getInventory: {
+            rest: '/inventory',
+            async handler(ctx) {
+                return this.inventory;
+            }
+        },
+
 		/**
 		 * Find order by orderId
 		 *
@@ -37,6 +44,7 @@ module.exports = {
 			/** @param {Context} ctx  */
 			async handler(ctx) {
                 const orderId = parseInt(ctx.params.orderId);
+                this.logger.info('Fetching order with orderId ' + orderId);
                 if (!this.orders.has(orderId)) {
                     ctx.meta.$statusCode = 404;
                     ctx.meta.$statusMessage = 'Order with id ' + orderId + ' not found';
@@ -54,22 +62,20 @@ module.exports = {
 		placeOrder: {
 			rest: "POST /order",
             params: {
-                order: {
-                    $$type: "object",
-                    id: { type: 'number', positive: true, integer: true },
-                    petId: { type: 'number', positive: true, integer: true },
-                    quantity: { type: 'number', positive: true, integer: true },
-                    shipDate: { type: 'date', convert:true },
-                    status: { type: 'enum', values: ['placed', 'approved', 'delivered']},
-                    complete: { type: 'boolean' }
-                }
+                id: { type: 'number', positive: true, integer: true },
+                petId: { type: 'number', positive: true, integer: true },
+                quantity: { type: 'number', positive: true, integer: true },
+                shipDate: { type: 'date', convert:true },
+                status: { type: 'enum', values: ['placed', 'approved', 'delivered']},
+                complete: { type: 'boolean' }
             },
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-                const order = ctx.params.order;
-                this.broker.call('pet.getPet', {petId: order.petId})
+                const order = ctx.params;
+                this.logger.info('Placing order ' + JSON.stringify(order));
+                this.broker.call('pet.getPet', {petId: order.petId.toString()})
                     .then(this.orders.set(order.id, order))
-                    .catch(error => console.error(error.message));
+                    .catch(error => this.logger.error('pet.getPet failed: ' + error.message));
 			}
 		}
 	},
@@ -78,7 +84,16 @@ module.exports = {
 	 * Events
 	 */
 	events: {
-
+        'pet.created': {
+            handler(ctx) {
+                this.logger.info('Pet created ' + JSON.stringify(ctx.params));
+                const pet = ctx.params;
+                if (pet.status === 'available') {
+                    this.logger.info('Adding default inventory of 10');
+                    this.inventory.set(ctx.params.petId, 10);
+                }
+            }
+        }
 	},
 
 	/**
@@ -93,6 +108,8 @@ module.exports = {
 	 */
 	created() {
         this.orders = new Map();
+        this.inventory = new Map(); //map of petid to inventory for available pets
+        this.inventory.set(123, 10);
 	},
 
 	/**

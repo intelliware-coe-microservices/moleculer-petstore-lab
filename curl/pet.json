@@ -1,0 +1,9 @@
+{
+    "id": 456,
+    "name": "Lassie",
+    "category": {
+        "id": 1,
+        "name": "Dogs"
+    },
+    "status": "available"
+}

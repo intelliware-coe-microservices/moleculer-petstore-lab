@@ -1,10 +1,8 @@
 {
-    "order": {
-        "id": 123,
-        "petId": 123,
-        "quantity": 1,
-        "shipDate": "2021-04-22T15:56:05.302Z",
-        "status": "placed",
-        "complete": false
-    }
+    "id": 123,
+    "petId": 123,
+    "quantity": 1,
+    "shipDate": "2021-04-22T15:56:05.302Z",
+    "status": "placed",
+    "complete": false
 }
