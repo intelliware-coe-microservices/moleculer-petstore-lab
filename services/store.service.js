@@ -69,7 +69,7 @@ module.exports = {
 			async handler(ctx) {
                 const order = ctx.params.order;
 				console.log(`>>> Place Order request, received. orderId=${order.id}`);
-                this.broker.call('pet.getPet', {petId: order.petId}) // TODO fall back response - caller fallback
+                this.broker.call('pet.getPet', {petId: order.petId}, /* {retries: 3} */) // TODO fall back response - caller fallback
                     .then(this.orders.set(order.id, order))
                     .catch(error => console.error(error.message));
 			}

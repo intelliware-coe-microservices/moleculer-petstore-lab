@@ -1,5 +1,8 @@
 "use strict";
 
+const { requestTimeout } = require('../moleculer.config');
+const { MoleculerRetryableError } = require("moleculer").Errors;
+
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
@@ -36,9 +39,11 @@ module.exports = {
                 const petId = parseInt(ctx.params.petId);
                 console.log(`>>> Get Pet request, received. petId=${petId}`);
 				if (!this.pets.has(petId)) {
-                    ctx.meta.$statusCode = 404;
-                    ctx.meta.$statusMessage = 'Pet with id ' + petId + ' not found';
-                    return;
+					console.log("pet not found, simulating a Retryable error...")
+					return this.Promise.reject(new MoleculerRetryableError("retry!"));
+                //     ctx.meta.$statusCode = 404;
+                //     ctx.meta.$statusMessage = 'Pet with id ' + petId + ' not found';
+                //     return;
                 }
 				return this.pets.get(petId);
 			}
