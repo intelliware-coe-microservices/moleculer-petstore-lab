@@ -33,4 +33,5 @@ Update the pet service to create a broadcast event to notify other services that
 See [https://moleculer.services/docs/0.14/events.html](https://moleculer.services/docs/0.14/events.html) for examples of how to do this.
 
 Store the inventory for each pet in memory. Implement the GET /store/inventory endpoint in the store service to verify the event was
-processed correctly.
+processed correctly. Note the definition of this endpoint doesn't seem to make much sense. Feel free to just return the inventory for
+each petId.
