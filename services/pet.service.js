@@ -34,7 +34,8 @@ module.exports = {
 			/** @param {Context} ctx  */
 			async handler(ctx) {
                 const petId = parseInt(ctx.params.petId);
-                if (!this.pets.has(petId)) {
+                console.log(`>>> Get Pet request, received. petId=${petId}`);
+				if (!this.pets.has(petId)) {
                     ctx.meta.$statusCode = 404;
                     ctx.meta.$statusMessage = 'Pet with id ' + petId + ' not found';
                     return;

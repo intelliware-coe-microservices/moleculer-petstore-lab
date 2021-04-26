@@ -37,6 +37,7 @@ module.exports = {
 			/** @param {Context} ctx  */
 			async handler(ctx) {
                 const orderId = parseInt(ctx.params.orderId);
+				console.log(`>>> Get Order request, received. orderId=${orderId}`);
                 if (!this.orders.has(orderId)) { // TODO : instead throw an error and have the status code in there https://moleculer.services/docs/0.14/errors.html
                     ctx.meta.$statusCode = 404;
                     ctx.meta.$statusMessage = 'Order with id ' + orderId + ' not found';
@@ -67,6 +68,7 @@ module.exports = {
 			/** @param {Context} ctx  */
 			async handler(ctx) {
                 const order = ctx.params.order;
+				console.log(`>>> Place Order request, received. orderId=${order.id}`);
                 this.broker.call('pet.getPet', {petId: order.petId}) // TODO fall back response - caller fallback
                     .then(this.orders.set(order.id, order))
                     .catch(error => console.error(error.message));
