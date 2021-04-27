@@ -22,9 +22,12 @@
     "moleculer-repl": "^0.6.4"
   },
   "dependencies": {
+    "moleculer": "^0.14.10",
+    "moleculer-db": "^0.8.13",
+    "moleculer-db-adapter-mongoose": "^0.8.9",
     "moleculer-web": "^0.9.0",
-    "moleculer": "^0.14.10"
-},
+    "mongoose": "^5.12.5"
+  },
   "engines": {
     "node": ">= 10.x.x"
   },

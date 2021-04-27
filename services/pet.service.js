@@ -1,11 +1,26 @@
 "use strict";
 
+const DbService = require("moleculer-db");
+const MongooseAdapter = require("moleculer-db-adapter-mongoose");
+const mongoose = require("mongoose");
+
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
 
 module.exports = {
 	name: "pet",
+    mixins: [DbService],
+    adapter: new MongooseAdapter("mongodb://localhost/pet-service", { user: 'pet-service', pass: 'pet-service', keepAlive: true }),
+    model: mongoose.model("pets", mongoose.Schema({
+        _id: { type: Number },
+        name: { type: String },
+        category: {
+            id: { type: Number },
+            name: { type: String }
+        },
+        status: { type: String }
+    })),
 
 	/**
 	 * Settings
@@ -36,14 +51,9 @@ module.exports = {
             },
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-                const petId = parseInt(ctx.params.petId);
+                const petId = ctx.params.petId;
                 this.logger.info('Get pet with id ' + petId);
-                if (!this.pets.has(petId)) {
-                    ctx.meta.$statusCode = 404;
-                    ctx.meta.$statusMessage = 'Pet with id ' + petId + ' not found';
-                    return;
-                }
-				return this.pets.get(petId);
+                return this.broker.call('pet.get', { id: petId } );
 			}
 		},
         addPet: {
@@ -63,7 +73,8 @@ module.exports = {
 			async handler(ctx) {
                 const pet = ctx.params;
                 this.logger.info('Adding pet ' + JSON.stringify(pet));
-                this.pets.set(pet.id, pet);
+                pet._id = pet.id;
+                this.broker.call('pet.create', pet);
                 this.broker.broadcast('pet.created', pet);
 			}
         }
@@ -87,15 +98,14 @@ module.exports = {
 	 * Service created lifecycle event handler
 	 */
 	created() {
-        this.pets = new Map();
-        this.pets.set(123, {id: 123, name: 'Fido', category: { id: 1, name: 'Dogs'}, status: 'available'});
-	},
+
+    },
 
 	/**
 	 * Service started lifecycle event handler
 	 */
 	async started() {
-
+        // this.broker.call('pet.create', {id: 123, name: 'Fido', category: { id: 1, name: 'Dogs'}, status: 'available'});
     },
 
 	/**

@@ -28,7 +28,11 @@ module.exports = {
 				path: "/api",
 
 				whitelist: [
-					"**"
+					"pet.getPet",
+                    "pet.addPet",
+                    "store.getInventory",
+                    "store.getOrder",
+                    "store.placeOrder"
 				],
 
 				// Route-level Express middlewares. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Middlewares
