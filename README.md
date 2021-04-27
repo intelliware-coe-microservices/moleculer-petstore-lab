@@ -8,6 +8,7 @@ You will need the following to start this lab:
 - a recent version of [node.js](https://nodejs.org/en/download/)
 - a recent version of npm or yarn
 - after checking out the project do an npm or yarn install
+- a recent version of [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 ## Modules
 The lab will involve building a subset of the endpoints for the petstore api. The swagger definition can be found at
