@@ -23,6 +23,9 @@ Validate that the pets in the order are available by making a synchronous call f
 Add validation of the parameters and payload of the POST using the Fastest Validator library.
 See [https://moleculer.services/docs/0.14/validating.html](https://moleculer.services/docs/0.14/validating.html) for details.
 
+Note that for the petId in the getPet endpoint you will need to define it as a string in the validation schema rather than a number.
+The same applies to the orderId in the getOrder endpoint.
+
 ## Event Handling
 In the real world there are events that are propagated to other services asynchronously based on a user action or some background process.
 
