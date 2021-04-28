@@ -32,6 +32,7 @@ function createUser(sub, name, roles) {
 	};
 }
 
+// noinspection JSUnusedGlobalSymbols
 module.exports = {
 	name: "api",
 	mixins: [ApiGateway],
@@ -165,11 +166,13 @@ module.exports = {
 					return createUser(decodedToken["sub"], decodedToken["name"], decodedToken["roles"]);
 				} catch(err) {
 					// err
+					// noinspection JSCheckFunctionSignatures
 					throw new ApiGateway.Errors.UnAuthorizedError(ApiGateway.Errors.ERR_INVALID_TOKEN);
 				}
 
 			} else {
 				// No token. Throw an error or do nothing if anonymous access is allowed.
+				// noinspection JSCheckFunctionSignatures
 				throw new ApiGateway.Errors.UnAuthorizedError(ApiGateway.Errors.ERR_NO_TOKEN);
 			}
 		},
@@ -189,9 +192,12 @@ module.exports = {
 			const user = ctx.meta.user;
 
 			// It check the `auth` property in action schema.
-			if (req.$action.auth && req.$action.auth) {
+			// noinspection JSUnresolvedVariable
+			if (req.$action.auth && req.$action.auth.roles) {
+				// noinspection JSUnresolvedVariable
 				let roles = req.$action.auth.roles;
 				if (roles.length > 0 && (user === undefined || !user.hasAnyRole(roles))) {
+					// noinspection JSCheckFunctionSignatures
 					throw new ApiGateway.Errors.UnAuthorizedError("NO_RIGHTS");
 				}
 			}
