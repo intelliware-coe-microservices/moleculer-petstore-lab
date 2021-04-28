@@ -1,8 +1,8 @@
 "use strict";
 
 const ApiGateway = require("moleculer-web");
-const jwt = require('jsonwebtoken');
-const privateKey = require('fs').readFileSync('private.key');
+const jwt = require("jsonwebtoken");
+const privateKey = require("fs").readFileSync("private.key");
 
 
 /**
@@ -10,6 +10,27 @@ const privateKey = require('fs').readFileSync('private.key');
  * @typedef {import('http').IncomingMessage} IncomingRequest Incoming HTTP Request
  * @typedef {import('http').ServerResponse} ServerResponse HTTP Server Response
  */
+
+function createUser(sub, name, roles) {
+	return {
+		id: sub,
+		name: name,
+		roles: roles,
+		hasAnyRole: function (reqRoles) {
+			if (!reqRoles || reqRoles.length === 0) {
+				return true;
+			}
+
+			let reqRole;
+			for (reqRole of reqRoles) {
+				if (this.roles.indexOf(reqRole) > -1) {
+					return true;
+				}
+			}
+			return false;
+		}
+	};
+}
 
 module.exports = {
 	name: "api",
@@ -44,7 +65,7 @@ module.exports = {
 				authentication: true,
 
 				// Enable authorization. Implement the logic into `authorize` method. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Authorization
-				authorization: false,
+				authorization: true,
 
 				// The auto-alias feature allows you to declare your route alias directly in your services.
 				// The gateway will dynamically build the full routes from service schema.
@@ -141,7 +162,7 @@ module.exports = {
 
 				try {
 					const decodedToken = jwt.verify(token, privateKey);
-					return { id: decodedToken['sub'], name: decodedToken['name'], roles: decodedToken['roles']};
+					return createUser(decodedToken["sub"], decodedToken["name"], decodedToken["roles"]);
 				} catch(err) {
 					// err
 					throw new ApiGateway.Errors.UnAuthorizedError(ApiGateway.Errors.ERR_INVALID_TOKEN);
@@ -168,7 +189,8 @@ module.exports = {
 			const user = ctx.meta.user;
 
 			// It check the `auth` property in action schema.
-			if (req.$action.auth == "required" && !user) {
+			let roles = req.$action.auth.roles;
+			if ((roles && roles.length > 0 ) && (user === undefined || !user.hasAnyRole(roles))) {
 				throw new ApiGateway.Errors.UnAuthorizedError("NO_RIGHTS");
 			}
 		}

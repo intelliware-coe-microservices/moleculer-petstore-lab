@@ -34,6 +34,7 @@ module.exports = {
 				method: "GET",
 				path: "/hello"
 			},
+			auth: {roles:['USER']},
 			async handler() {
 				return "Hello Moleculer";
 			}
