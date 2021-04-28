@@ -70,10 +70,11 @@ module.exports = {
                 const order = ctx.params.order;
 				const getDefaultPet = () => {
 					console.log("falling back to get default pet.")
+					
 				}
 		
 				console.log(`>>> Place Order request, received. orderId=${order.id}`);
-                this.broker.call('pet.getPet', {petId: order.petId}, /*{timeout: 500,retries: 3, fallbackResponse: getDefaultPet }*/)					
+                this.broker.call('pet.getPet', {petId: order.petId}, {timeout: 500,retries: 3, fallbackResponse: getDefaultPet })					
                     .then(this.orders.set(order.id, order))
                     .catch(error => console.error(error.message));
 			}
