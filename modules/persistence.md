@@ -29,7 +29,10 @@ api.service.js to only export the endpoints that you created manually.
 ## DB Adapter
 Convert the in-memory implementation of the pet service to use Mongo either via the Mongo DB adapter or
 the Mongoose DB adapter. See [https://moleculer.services/docs/0.14/moleculer-db.html](https://moleculer.services/docs/0.14/moleculer-db.html)
-for details on how to do this.
+for details on how to do this. The mixins, adapter, and model fields are defined after the name field in the service.
 
 The Mongo DB adapter is easier to use from a configuration point of view as a schema is not required but the Mongoose adapter gives you
 the flexibility to define a schema for each Mongo collection.
+
+If you choose to use Mongoose you will need to define _id in the Mongoose schema and copy the pet id into this field before persisting to
+the database.
