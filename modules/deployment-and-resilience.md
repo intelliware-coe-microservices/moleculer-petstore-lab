@@ -84,7 +84,11 @@ The Circuit Breaker can prevent an application from repeatedly trying to execute
 - You shoould see the circuit turns to open and Pet becomes unavilable.
 - Circuit breakers will trun back to close when there are successful calls made to the callee, in our case since we hardcoded the failiure in the Pet it won't happen automatically , feel free to make that conditional so that you can similate both sucess and failure cases.
   
+## Step 7 - Enable Bulkheads 
+Bulkhead feature is implemented in Moleculer framework to control the concurrent request handling of actions.
 
+- Enable bulkheads and set the number of concurrent requests you want to handle by changing moleculer.config.js and under **bulkhead** 
+- Hit the Place Order serveral times and observe the bahaviour 
 
 
 
