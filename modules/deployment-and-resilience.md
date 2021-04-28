@@ -35,7 +35,7 @@ So far you should have seen the **Monolith** option  - which you would get by do
 ## Step 1 - run multi node and observe load balancing 
 Now we want to run the application in a ditributed ( aka Microservice ) style 
 - Make sure you exit the previous instance 
-- Enable tracing in moleculer.config.js under `tracing`
+- Enable tracing in moleculer.config.js under **tracing**
 - Alternatively you can add some log statemets in Place Order and Get Pet endpoints so you can easily trace thier behaviour in the console going forward
 - Start the application in multi node by running above NPM scripts
   - Open a new terminal and Start API Gateway
@@ -43,7 +43,7 @@ Now we want to run the application in a ditributed ( aka Microservice ) style
   - Open 2 (or more) new terminals and start Pet Service 
   - On your terminals you can run `services -d` at any point and see how each node can see the other nodes
   - Now try to Place Order (post order) and watch what happens in various terminal windows 
-  - Keep hitting the place order endpoint and see how the load-balancing kicks in, you can change the load balancing options in moleculer.config.js under registry
+  - Keep hitting the place order endpoint and see how the load-balancing kicks in, you can change the load balancing options in moleculer.config.js under **registry**
   
 ## Step 2 - Resiliency, with replica nodes 
   - Now you can simulate when a node crashes by terminating one of each Pet / Store instrances
@@ -54,7 +54,7 @@ Now we want to run the application in a ditributed ( aka Microservice ) style
 Moleculer provides various mechanisms for Fault tolerance, which we are going to excercise in the next few steps. 
 Here is the reference material: [Moleculer Fault Tolerance](https://moleculer.services/docs/0.13/fault-tolerance.html)
 
-- Enable global retry ploicy in moleculer-config under retryPolicy
+- Enable global retry ploicy in moleculer.config.js under **retryPolicy**
 - Now we need to simulate a retry situation by making some changes to the Pet service , so that when the Order service call is gets a "retriable"
   - you could add this to the Pet service Get pet to simulate that , or use your own way of simulating a retriable error `return this.Promise.reject(new MoleculerRetryableError("retry!"))`
   
@@ -74,6 +74,19 @@ Now you can enhance the retry and also have a fallback method , this could be us
 - Add a fallback method on the caller , go ahead and change Place Order 
   - `this.broker.call('pet.getPet', {petId: order.petId}, {timeout: 500,retries: 3, fallbackResponse: getDefaultPet })`
   - something like : `const getDefaultPet = () => {console.log("falling back to get default pet.")}`
+
+## Step 6 - Enable circuit breakers 
+The Circuit Breaker can prevent an application from repeatedly trying to execute an operation that’s likely to fail. Allowing it to continue without waiting for the fault to be fixed or wasting CPU cycles while it determines that the fault is long lasting. Full reference here : [Circuit Breaker](https://moleculer.services/docs/0.13/fault-tolerance.html)
+
+- Enable Circuit-breakers by changing moleculer.config.js and under **circuitBreaker**
+  - You can also change the **minRequestCount** to a samller nummber  and set the **windowTime** to a shorter window so that you can easily simulate activating the circuit breaker 
+- Now try hitting the Place Order few times in a row to exceed the number that would trip the Circuit Breaker in the specified windowTime 
+- You shoould see the circuit turns to open and Pet becomes unavilable.
+- Circuit breakers will trun back to close when there are successful calls made to the callee, in our case since we hardcoded the failiure in the Pet it won't happen automatically , feel free to make that conditional so that you can similate both sucess and failure cases.
+  
+
+
+
 
 
 
