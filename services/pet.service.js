@@ -38,6 +38,7 @@ module.exports = {
 			async handler(ctx) {
                 const petId = parseInt(ctx.params.petId);
                 console.log(`>>> Get Pet request, received. petId=${petId}`);
+				setTimeout(() => {console.log("Pretending to be BUSY")},5000)
 				if (!this.pets.has(petId)) {
 					console.log("pet not found, simulating a Retryable error...")
 					return this.Promise.reject(new MoleculerRetryableError("retry!"));

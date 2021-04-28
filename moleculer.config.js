@@ -138,7 +138,7 @@ module.exports = {
 	// Settings of bulkhead feature. More info: https://moleculer.services/docs/0.14/fault-tolerance.html#Bulkhead
 	bulkhead: {
 		// Enable feature.
-		enabled: false,
+		enabled: true,
 		// Maximum concurrent executions.
 		concurrency: 10,
 		// Maximum size of queue
