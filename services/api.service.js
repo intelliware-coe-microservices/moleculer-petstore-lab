@@ -189,9 +189,11 @@ module.exports = {
 			const user = ctx.meta.user;
 
 			// It check the `auth` property in action schema.
-			let roles = req.$action.auth.roles;
-			if ((roles && roles.length > 0 ) && (user === undefined || !user.hasAnyRole(roles))) {
-				throw new ApiGateway.Errors.UnAuthorizedError("NO_RIGHTS");
+			if (req.$action.auth && req.$action.auth) {
+				let roles = req.$action.auth.roles;
+				if (roles.length > 0 && (user === undefined || !user.hasAnyRole(roles))) {
+					throw new ApiGateway.Errors.UnAuthorizedError("NO_RIGHTS");
+				}
 			}
 		}
 
