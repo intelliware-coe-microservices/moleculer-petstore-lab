@@ -4,6 +4,10 @@
   "description": "My Moleculer-based microservices project",
   "scripts": {
     "dev": "moleculer-runner --repl --hot services/**/*.service.js",
+    "api": "moleculer-runner -r services/api.service.js",
+    "pet": "moleculer-runner -r services/pet.service.js",
+    "store": "moleculer-runner -r services/store.service.js",
+    "petstore": "moleculer-runner -r services/store.service.js services/pet.service.js",
     "start": "moleculer-runner",
     "cli": "moleculer connect ",
     "ci": "jest --watch",
