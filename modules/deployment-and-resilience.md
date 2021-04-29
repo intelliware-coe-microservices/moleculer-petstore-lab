@@ -35,12 +35,14 @@ So far you should have seen the **Monolith** option  - which you would get by do
 ## Step 1 - run multi node and observe load balancing 
 Now we want to run the application in a ditributed ( aka Microservice ) style 
 - Make sure you exit the previous instance 
+- Change the transport in moleculer.config.js to use REDIS 
+  - `transporter: "redis://localhost:6379"`
 - Enable tracing in moleculer.config.js under **tracing**
 - Alternatively you can add some log statemets in Place Order and Get Pet endpoints so you can easily trace thier behaviour in the console going forward
 - Start the application in multi node by running above NPM scripts
-  - Open a new terminal and Start API Gateway
-  - Open 2 (or more) new terminals and start Store Service 
-  - Open 2 (or more) new terminals and start Pet Service 
+  - Open a new terminal and Start API Gateway (`npm run api`)
+  - Open 2 (or more) new terminals and start Store Service (`npm run store`)
+  - Open 2 (or more) new terminals and start Pet Service (`npm run pet`)
   - On your terminals you can run `services -d` at any point and see how each node can see the other nodes
   - Now try to Place Order (post order) and watch what happens in various terminal windows 
   - Keep hitting the place order endpoint and see how the load-balancing kicks in, you can change the load balancing options in moleculer.config.js under **registry**
