@@ -35,6 +35,8 @@ So far you should have seen the **Monolith** option  - which you would get by do
 ## Step 1 - run multi node and observe load balancing 
 Now we want to run the application in a ditributed ( aka Microservice ) style 
 - Make sure you exit the previous instance 
+- Change the transport in moleculer.config.js to use REDIS 
+  - `transporter: "redis://localhost:6379"`
 - Enable tracing in moleculer.config.js under **tracing**
 - Alternatively you can add some log statemets in Place Order and Get Pet endpoints so you can easily trace thier behaviour in the console going forward
 - Start the application in multi node by running above NPM scripts
